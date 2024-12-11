@@ -1,11 +1,11 @@
-package com.hotelApp.HotelBooking.services;
+package com.hotelApp.HotelBooking.services.auth;
 
 import com.hotelApp.HotelBooking.constants.Messages;
 import com.hotelApp.HotelBooking.dtos.UserRequestDto;
 import com.hotelApp.HotelBooking.dtos.UserResponseDto;
 import com.hotelApp.HotelBooking.entity.User;
 import com.hotelApp.HotelBooking.enums.UserRole;
-import com.hotelApp.HotelBooking.mappers.UserMapperInterface;
+import com.hotelApp.HotelBooking.mappers.UserMapper;
 import com.hotelApp.HotelBooking.repository.UserRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityExistsException;
@@ -18,15 +18,15 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AuthService implements AuthServiceInterface {
+public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private final UserRepository userRepository;
 
     @Autowired
-    private final UserMapperInterface userMapper;
+    private final UserMapper userMapper;
 
-    public AuthService(UserRepository userRepository, UserMapperInterface userMapper) {
+    public AuthServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
     }
