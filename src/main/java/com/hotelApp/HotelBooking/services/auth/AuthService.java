@@ -1,9 +1,7 @@
 package com.hotelApp.HotelBooking.services.auth;
 
-import com.hotelApp.HotelBooking.dtos.UserRequestDto;
-import com.hotelApp.HotelBooking.dtos.UserResponseDto;
+import com.hotelApp.HotelBooking.dtos.UserDto;
 
 public interface AuthService {
-    void createAdminAccount();
-    UserResponseDto createUser(UserRequestDto userRequestDto);
+    UserDto createUser(UserDto userRequestDto);
 }

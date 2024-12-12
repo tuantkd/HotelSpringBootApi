@@ -1,6 +1,6 @@
 package com.hotelApp.HotelBooking.enums;
 
-public enum UserRole {
+public enum String {
     ADMIN,
     CUSTOMER
 }

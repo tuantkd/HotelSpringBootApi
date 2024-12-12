@@ -1,24 +1,25 @@
 package com.hotelApp.HotelBooking.dtos;
 
-import com.hotelApp.HotelBooking.enums.UserRole;
+import com.hotelApp.HotelBooking.entity.UserRole;
 import lombok.Data;
+import java.util.List;
 
 @Data
-public class UserRequestDto {
+public class UserDto {
+    private Long id;
+
     private String name;
 
     private String email;
 
     private String password;
 
-    private UserRole userRole;
-
-    public UserRole getUserRole() {
-        return userRole;
+    public Long getId() {
+        return id;
     }
 
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

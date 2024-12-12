@@ -3,7 +3,7 @@ package com.hotelApp.HotelBooking.dtos;
 import lombok.Data;
 
 @Data
-public class MessageResponseDto {
+public class MessageDto {
     private String status;
     private String message;
 
