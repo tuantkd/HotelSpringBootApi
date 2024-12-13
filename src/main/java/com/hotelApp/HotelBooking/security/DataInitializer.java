@@ -1,29 +1,41 @@
-package com.hotelApp.HotelBooking.configs;
+package com.hotelApp.HotelBooking.security;
 
 import com.hotelApp.HotelBooking.entity.*;
 import com.hotelApp.HotelBooking.repository.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class DataInitializer implements CommandLineRunner {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
-    @Autowired
-    private PermissionRepository permissionRepository;
+    private final PermissionRepository permissionRepository;
 
-    @Autowired
-    private RolePermissionRepository rolePermissionRepository;
+    private final RolePermissionRepository rolePermissionRepository;
 
-    @Autowired
-    private UserRoleRepository userRoleRepository;
+    private final UserRoleRepository userRoleRepository;
+
+    private final PasswordEncoder passwordEncoder;
+
+    public DataInitializer(
+        UserRepository userRepository,
+        RoleRepository roleRepository,
+        PermissionRepository permissionRepository,
+        RolePermissionRepository rolePermissionRepository,
+        UserRoleRepository userRoleRepository,
+        PasswordEncoder passwordEncoder
+    ) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.permissionRepository = permissionRepository;
+        this.rolePermissionRepository = rolePermissionRepository;
+        this.userRoleRepository = userRoleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public void run(String... args) {
@@ -65,7 +77,7 @@ public class DataInitializer implements CommandLineRunner {
         User adminUser = new User();
         adminUser.setName("Admin");
         adminUser.setEmail("admin@gmail.com");
-        adminUser.setPassword(new BCryptPasswordEncoder().encode("admin"));
+        adminUser.setPassword(passwordEncoder.encode("admin"));
         userRepository.save(adminUser);
 
         // Associate Users with Roles

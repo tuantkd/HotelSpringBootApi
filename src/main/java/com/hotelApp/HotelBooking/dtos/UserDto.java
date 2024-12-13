@@ -1,8 +1,7 @@
 package com.hotelApp.HotelBooking.dtos;
 
-import com.hotelApp.HotelBooking.entity.UserRole;
 import lombok.Data;
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class UserDto {
@@ -13,6 +12,16 @@ public class UserDto {
     private String email;
 
     private String password;
+
+    private Set<RoleDto> roles;
+
+    public Set<RoleDto> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<RoleDto> roles) {
+        this.roles = roles;
+    }
 
     public Long getId() {
         return id;

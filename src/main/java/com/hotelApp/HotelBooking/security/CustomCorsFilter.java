@@ -1,4 +1,4 @@
-package com.hotelApp.HotelBooking.configs;
+package com.hotelApp.HotelBooking.security;
 
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
