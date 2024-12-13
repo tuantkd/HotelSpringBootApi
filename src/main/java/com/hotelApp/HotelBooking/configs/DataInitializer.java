@@ -29,7 +29,7 @@ public class DataInitializer implements CommandLineRunner {
     public void run(String... args) {
         // Check if data already exists
         if (userRepository.count() > 0 || roleRepository.count() > 0 || permissionRepository.count() > 0) {
-            System.out.println("Data already exists. Skipping initialization.");
+            System.out.println("DATA ALREADY EXISTS. SKIPPING INITIALIZATION.");
             return;
         }
 
@@ -38,6 +38,11 @@ public class DataInitializer implements CommandLineRunner {
         viewDashboard.setName("VIEW_DASHBOARD");
         viewDashboard.setDescription("View Dashboard");
         permissionRepository.save(viewDashboard);
+
+        Permission access = new Permission();
+        access.setName("ACCESS_PERMISSIONS");
+        access.setDescription("Access permissions");
+        permissionRepository.save(access);
 
         // Create Roles
         Role adminRole = new Role();
@@ -50,6 +55,11 @@ public class DataInitializer implements CommandLineRunner {
         adminViewDashboard.setRole(adminRole);
         adminViewDashboard.setPermission(viewDashboard);
         rolePermissionRepository.save(adminViewDashboard);
+
+        RolePermission adminViewAccess = new RolePermission();
+        adminViewAccess.setRole(adminRole);
+        adminViewAccess.setPermission(access);
+        rolePermissionRepository.save(adminViewAccess);
 
         // Create Users
         User adminUser = new User();
@@ -64,6 +74,6 @@ public class DataInitializer implements CommandLineRunner {
         adminUserRole.setRole(adminRole);
         userRoleRepository.save(adminUserRole);
 
-        System.out.println("Initial data added to the database.");
+        System.out.println("INITIAL DATA ADDED TO THE DATABASE.");
     }
 }

@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -19,17 +20,28 @@ import org.springframework.security.web.SecurityFilterChain;
 public class WebSecurityConfig {
     private final UserService userService;
 
-    public WebSecurityConfig(UserService userService) {
+    private final CustomCorsFilter customCorsFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    public WebSecurityConfig(
+        UserService userService,
+        CustomCorsFilter customCorsFilter,
+        JwtAuthenticationFilter jwtAuthenticationFilter
+    ) {
         this.userService = userService;
+        this.customCorsFilter = customCorsFilter;
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable) // Disable CSRF for simplicity (not recommended for production)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtFilter) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll() // Public endpoints
-                .anyRequest().authenticated() // All other endpoints require authentication
-            );
+                .requestMatchers("/api/auth/**").permitAll()
+                .anyRequest().authenticated()
+            )
+            .addFilterBefore(customCorsFilter, UsernamePasswordAuthenticationFilter.class) // Add Custom CORS Filter
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Add JWT Filter
         return http.build();
     }
 

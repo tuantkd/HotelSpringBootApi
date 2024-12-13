@@ -15,24 +15,23 @@ public class CustomCorsFilter implements Filter {
         ServletResponse response,
         FilterChain chain
     ) throws IOException, ServletException {
+
         HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
-        String originHeader = ((HttpServletRequest) request).getHeader("origin");
 
-        // Add CORS headers
-        httpResponse.setHeader("Access-Control-Allow-Origin", originHeader); // Allow all origins
-        httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"); // Allowed HTTP methods
-        httpResponse.setHeader("Access-Control-Allow-Headers", "*"); // Allowed headers
-        httpResponse.setHeader("Access-Control-Max-Age", "3600");
+        // Allow CORS rules
+        httpResponse.setHeader("Access-Control-Allow-Origin", "*"); // Replace * with allowed origins in production
+        httpResponse.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        httpResponse.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
+        httpResponse.setHeader("Access-Control-Expose-Headers", "Authorization");
+        httpResponse.setHeader("Access-Control-Allow-Credentials", "true");
 
-        // For preflight requests, respond with status 200 and stop processing further
+        // Allow preflight requests
         if ("OPTIONS".equalsIgnoreCase(httpRequest.getMethod())) {
             httpResponse.setStatus(HttpServletResponse.SC_OK);
-            return;
+        } else {
+            chain.doFilter(request, response);
         }
-
-        // Pass the request along the filter chain
-        chain.doFilter(request, response);
     }
 
     @Override

@@ -1,11 +1,14 @@
 package com.hotelApp.HotelBooking.services.jwt;
 
 import com.hotelApp.HotelBooking.constants.Messages;
+import com.hotelApp.HotelBooking.dtos.UserDto;
 import com.hotelApp.HotelBooking.entity.Permission;
 import com.hotelApp.HotelBooking.entity.Role;
 import com.hotelApp.HotelBooking.repository.PermissionRepository;
 import com.hotelApp.HotelBooking.repository.RoleRepository;
 import com.hotelApp.HotelBooking.repository.UserRepository;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,6 +24,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PermissionRepository permissionRepository;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     public UserServiceImpl(
         UserRepository userRepository,
@@ -62,4 +68,7 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    public List<UserDto> getUsers() {
+        return userRepository.findAll().stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+    }
 }

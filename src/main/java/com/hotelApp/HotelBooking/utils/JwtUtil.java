@@ -30,7 +30,7 @@ public class JwtUtil {
         return generateToken(new HashMap<>(), userDetails);
     }
 
-    private boolean isTokenValid(String token, UserDetails userDetails) {
+    public boolean isTokenValid(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return username.equals(userDetails.getUsername()) && !isTokenExpired(token);
     }
@@ -39,7 +39,7 @@ public class JwtUtil {
         return Jwts.parser().setSigningKey(getKey()).parseClaimsJws(token).getBody();
     }
 
-    private String extractUsername(String token) {
+    public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
