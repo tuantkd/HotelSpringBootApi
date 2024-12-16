@@ -52,8 +52,8 @@ public class DataInitializer implements CommandLineRunner {
         permissionRepository.save(viewDashboard);
 
         Permission access = new Permission();
-        access.setName("ACCESS_PERMISSIONS");
-        access.setDescription("Access permissions");
+        access.setName("VIEW_PERMISSIONS");
+        access.setDescription("View permissions");
         permissionRepository.save(access);
 
         // Create Roles

@@ -43,9 +43,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
     public UserDto createUser(UserDto userRequestDto) {
-        if (userRepository.findByEmail(userRequestDto.getEmail()).isPresent()) {
-            throw new EntityExistsException(MessageConst.EMAIL_EXIST + userRequestDto.getEmail());
-        }
         User user = modelMapper.map(userRequestDto, User.class);
         user.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
         var savedUser = userRepository.save(user);

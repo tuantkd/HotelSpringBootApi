@@ -5,24 +5,30 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface RoleRepository extends JpaRepository<Role, Long> {
     @Query(value = """
-        select
-            r.id,
-            r.name,
-            r.description,
-            r.created_at,
-            r.updated_at
-         from
-            roles r
-         join user_roles ur on
-            ur.role_id = r.id
-         join users u on
-            r.id = ur.user_id
-         where
-            u.id = :userId
-    """, nativeQuery = true)
+                select
+                    r.id,
+                    r.name,
+                    r.description,
+                    r.created_at,
+                    r.updated_at
+                 from
+                    roles r
+                 join user_roles ur on
+                    ur.role_id = r.id
+                 join users u on
+                    r.id = ur.user_id
+                 where
+                    u.id = :userId
+            """, nativeQuery = true)
     Set<Role> findRolesByUserId(@Param("userId") Long userId);
+
+    @Query(value = """
+                SELECT * FROM roles r WHERE r.name = :name
+            """, nativeQuery = true)
+    Optional<Role> findByName(String name);
 }

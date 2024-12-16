@@ -2,6 +2,7 @@ package com.hotelApp.HotelBooking.controllers;
 
 import com.hotelApp.HotelBooking.constants.MessageConst;
 import com.hotelApp.HotelBooking.dtos.*;
+import com.hotelApp.HotelBooking.exception.CustomException;
 import com.hotelApp.HotelBooking.services.auth.AuthService;
 import com.hotelApp.HotelBooking.services.jwt.UserService;
 import jakarta.persistence.EntityExistsException;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.MessageFormat;
 
 @RestController
 @RequestMapping("/api/v1/auth")
@@ -34,13 +37,7 @@ public class AuthController {
             UserDto userOutputDTO = authService.createUser(userDto);
             return new ResponseEntity<>(userOutputDTO, HttpStatus.CREATED);
         } catch (EntityExistsException entityExistsException) {
-            message.setStatus(HttpStatus.NOT_ACCEPTABLE.toString());
-            message.setMessage(MessageConst.USER_EXIST);
-            return new ResponseEntity<>(message, HttpStatus.NOT_ACCEPTABLE);
-        } catch (Exception exception) {
-            message.setStatus(HttpStatus.BAD_REQUEST.toString());
-            message.setMessage(MessageConst.CREATE_FAILED);
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+            throw new CustomException(MessageFormat.format(MessageConst.ITEM_EXIST, userDto.getEmail()), HttpStatus.BAD_REQUEST);
         }
     }
 

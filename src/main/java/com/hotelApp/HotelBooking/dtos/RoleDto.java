@@ -1,6 +1,5 @@
 package com.hotelApp.HotelBooking.dtos;
 
-import com.hotelApp.HotelBooking.entity.Permission;
 import lombok.Data;
 
 import java.util.Set;
@@ -14,14 +13,6 @@ public class RoleDto {
     private String description;
 
     private Set<PermissionDto> permissions;
-
-    public Set<PermissionDto> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(Set<PermissionDto> permissions) {
-        this.permissions = permissions;
-    }
 
     public Long getId() {
         return id;
@@ -45,5 +36,13 @@ public class RoleDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Set<PermissionDto> getPermissions() {
+        return permissions;
+    }
+
+    public void setPermissions(Set<PermissionDto> permissions) {
+        this.permissions = permissions;
     }
 }
