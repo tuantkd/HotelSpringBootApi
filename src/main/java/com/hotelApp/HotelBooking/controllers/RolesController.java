@@ -29,8 +29,8 @@ public class RolesController {
             @RequestParam(defaultValue = "ASC") String sortOrder // ASC or DESC
     ) {
         try {
-            PaginatedResponseDto roleDtoPage = rolesService.getRoles(page, pageSize, sortField, sortOrder);
-            return new ResponseEntity<>(roleDtoPage, HttpStatus.OK);
+            PaginatedResponseDto paginatedResponse = rolesService.getRoles(page, pageSize, sortField, sortOrder);
+            return new ResponseEntity<>(paginatedResponse, HttpStatus.OK);
         } catch (Exception e) {
             MessageDto message = new MessageDto();
             message.setStatus(HttpStatus.NO_CONTENT.toString());
@@ -40,10 +40,19 @@ public class RolesController {
     }
 
     /**
+     * API to get role by id.
+     */
+    @GetMapping("/findRoleById/{id}")
+    public ResponseEntity<RoleDto> findRoleById(@PathVariable Long id) {
+        RoleDto role = rolesService.findRoleById(id);
+        return new ResponseEntity<>(role, HttpStatus.OK);
+    }
+
+    /**
      * API to post add new role.
      */
     @PostMapping("/createRole")
-    public ResponseEntity<?> createRole(@RequestBody RoleDto roleDto) {
+    public ResponseEntity<RoleDto> createRole(@RequestBody RoleDto roleDto) {
         RoleDto role = rolesService.createRole(roleDto);
         return new ResponseEntity<>(role, HttpStatus.CREATED);
     }
@@ -52,13 +61,13 @@ public class RolesController {
      * API to post update role.
      */
     @PostMapping("/updateRole")
-    public ResponseEntity<?> updateRole(@RequestBody RoleDto roleDto) {
+    public ResponseEntity<RoleDto> updateRole(@RequestBody RoleDto roleDto) {
         RoleDto role = rolesService.updateRole(roleDto);
-        return new ResponseEntity<>(role, HttpStatus.CREATED);
+        return new ResponseEntity<>(role, HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteRole/{id}")
-    public ResponseEntity<?> deleteRole(@PathVariable Long id) {
+    public ResponseEntity<MessageDto> deleteRole(@PathVariable Long id) {
         rolesService.deleteRole(id);
         MessageDto message = new MessageDto();
         message.setStatus(HttpStatus.OK.toString());

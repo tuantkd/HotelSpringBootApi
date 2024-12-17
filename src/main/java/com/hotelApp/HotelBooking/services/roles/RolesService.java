@@ -8,4 +8,5 @@ public interface RolesService {
     RoleDto createRole(RoleDto role);
     RoleDto updateRole(RoleDto roleDto);
     void deleteRole(Long id);
+    RoleDto findRoleById(Long id);
 }

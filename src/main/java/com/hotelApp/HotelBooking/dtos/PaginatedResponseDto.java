@@ -4,24 +4,24 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class PaginatedResponseDto {
-    private List<RoleDto> roles;
+public class PaginatedResponseDto<T> {
+    private List<T> roles;
     private long totalElements;
     private int totalPages;
     private long totalAll;
 
-    public PaginatedResponseDto(List<RoleDto> roles, long totalElements, int totalPages, long totalAll) {
+    public PaginatedResponseDto(List<T> roles, long totalElements, int totalPages, long totalAll) {
         this.roles = roles;
         this.totalElements = totalElements;
         this.totalPages = totalPages;
         this.totalAll = totalAll;
     }
 
-    public List<RoleDto> getRoles() {
+    public List<T> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<RoleDto> roles) {
+    public void setRoles(List<T> roles) {
         this.roles = roles;
     }
 

@@ -1,10 +1,12 @@
 package com.hotelApp.HotelBooking.repository;
 
 import com.hotelApp.HotelBooking.entity.Permission;
+import com.hotelApp.HotelBooking.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
 import java.util.Set;
 
 public interface PermissionRepository extends JpaRepository<Permission, Long> {
@@ -29,4 +31,9 @@ public interface PermissionRepository extends JpaRepository<Permission, Long> {
             u.id = :userId
     """, nativeQuery = true)
     Set<Permission> findPermissionsByUserId(@Param("userId") Long userId);
+
+    @Query(value = """
+                SELECT * FROM permissions p WHERE p.name = :name
+            """, nativeQuery = true)
+    Optional<Permission> findByName(String name);
 }

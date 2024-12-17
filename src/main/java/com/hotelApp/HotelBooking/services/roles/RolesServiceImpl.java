@@ -27,12 +27,18 @@ public class RolesServiceImpl implements RolesService {
     }
 
     public void roleNameExist(String name) {
-        if (!name.isBlank()) {
+        if (name != null) {
             roleRepository.findByName(name)
                     .ifPresent(p -> {
                         throw new CustomException(MessageFormat.format(MessageConst.ITEM_EXIST, name), HttpStatus.CONFLICT);
                     });
         }
+    }
+
+    public RoleDto findRoleById(Long id) {
+        Role foundRole = roleRepository.findById(id)
+                .orElseThrow(() -> new CustomException(MessageFormat.format(MessageConst.NOT_FOUND, id), HttpStatus.NOT_FOUND));
+        return modelMapper.map(foundRole, RoleDto.class);
     }
 
     public RoleDto createRole(RoleDto roleDto) {
