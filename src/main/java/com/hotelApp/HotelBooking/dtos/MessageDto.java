@@ -7,6 +7,11 @@ public class MessageDto {
     private String status;
     private String message;
 
+    public MessageDto(String status, String message) {
+        this.status = status;
+        this.message = message;
+    }
+
     public String getStatus() {
         return status;
     }

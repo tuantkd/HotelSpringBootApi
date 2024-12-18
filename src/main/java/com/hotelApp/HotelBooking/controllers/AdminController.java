@@ -27,39 +27,36 @@ public class AdminController {
         this.userService = userService;
     }
 
-    /** API to get all user. */
+    /**
+     * API to get all user.
+     */
     @GetMapping("/users")
     public ResponseEntity<?> getUsers() {
         try {
             List<UserDto> userDtoList = userService.getUsers();
             return new ResponseEntity<>(userDtoList, HttpStatus.OK);
         } catch (Exception exception) {
-            var message = new MessageDto();
-            message.setStatus(HttpStatus.BAD_REQUEST.toString());
-            message.setMessage(MessageConst.USER_NOT_FOUND);
+            MessageDto message = new MessageDto(HttpStatus.BAD_REQUEST.toString(), MessageConst.USER_NOT_FOUND);
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
         }
     }
 
-    /** API to profile user details */
+    /**
+     * API to profile user details
+     */
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(@RequestHeader("Authorization") String token) {
-        MessageDto message = new MessageDto();
         try {
             if (token != null || token.startsWith("Bearer ")) {
                 String jwtToken = token.substring(7);
-                if(jwtUtil.isTokenValid(jwtToken)){
+                if (jwtUtil.isTokenValid(jwtToken)) {
                     String username = jwtUtil.extractUsername(jwtToken);
                     return new ResponseEntity<>(userService.getProfile(username), HttpStatus.OK);
                 }
             }
         } catch (Exception e) {
-            message.setStatus(HttpStatus.FORBIDDEN.toString());
-            message.setMessage(MessageConst.INVALID_TOKEN);
-            return new ResponseEntity<>(message, HttpStatus.FORBIDDEN);
+            return new ResponseEntity<>(new MessageDto(HttpStatus.FORBIDDEN.toString(), MessageConst.INVALID_TOKEN), HttpStatus.FORBIDDEN);
         }
-        message.setStatus(HttpStatus.UNAUTHORIZED.toString());
-        message.setMessage(MessageConst.AUTHORIZATION_FAILED);
-        return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(new MessageDto(HttpStatus.UNAUTHORIZED.toString(), MessageConst.AUTHORIZATION_FAILED), HttpStatus.UNAUTHORIZED);
     }
 }

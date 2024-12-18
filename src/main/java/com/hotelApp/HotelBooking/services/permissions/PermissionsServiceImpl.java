@@ -72,4 +72,16 @@ public class PermissionsServiceImpl implements PermissionsService {
                 totalAll
         );
     }
+
+    public void deletePermission(Long id) {
+        Permission permission = permissionRepository.findById(id)
+                .orElseThrow(() -> new CustomException(MessageFormat.format(MessageConst.NOT_FOUND, id), HttpStatus.NOT_FOUND));
+        permissionRepository.delete(permission);
+    }
+
+    public PermissionDto findPermissionById(Long id) {
+        Permission permission = permissionRepository.findById(id)
+                .orElseThrow(() -> new CustomException(MessageFormat.format(MessageConst.NOT_FOUND, id), HttpStatus.NOT_FOUND));
+        return modelMapper.map(permission, PermissionDto.class);
+    }
 }

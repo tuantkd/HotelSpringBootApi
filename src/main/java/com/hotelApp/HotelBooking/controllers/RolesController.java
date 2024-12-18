@@ -32,9 +32,7 @@ public class RolesController {
             PaginatedResponseDto paginatedResponse = rolesService.getRoles(page, pageSize, sortField, sortOrder);
             return new ResponseEntity<>(paginatedResponse, HttpStatus.OK);
         } catch (Exception e) {
-            MessageDto message = new MessageDto();
-            message.setStatus(HttpStatus.NO_CONTENT.toString());
-            message.setMessage(MessageConst.NO_CONTENT);
+            MessageDto message = new MessageDto(HttpStatus.NO_CONTENT.toString(), MessageConst.NO_CONTENT);
             return new ResponseEntity<>(message, HttpStatus.NO_CONTENT);
         }
     }
@@ -66,12 +64,13 @@ public class RolesController {
         return new ResponseEntity<>(role, HttpStatus.OK);
     }
 
+    /**
+     * API to delete role.
+     */
     @DeleteMapping("/deleteRole/{id}")
     public ResponseEntity<MessageDto> deleteRole(@PathVariable Long id) {
         rolesService.deleteRole(id);
-        MessageDto message = new MessageDto();
-        message.setStatus(HttpStatus.OK.toString());
-        message.setMessage(MessageConst.DEL_SUCCESS);
+        MessageDto message = new MessageDto(HttpStatus.OK.toString(), MessageConst.DEL_SUCCESS);
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 }

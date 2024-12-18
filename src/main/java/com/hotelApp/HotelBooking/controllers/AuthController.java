@@ -32,7 +32,6 @@ public class AuthController {
     /** API to register a new user. */
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody UserDto userDto) {
-        MessageDto message = new MessageDto();
         try {
             UserDto userOutputDTO = authService.createUser(userDto);
             return new ResponseEntity<>(userOutputDTO, HttpStatus.CREATED);
@@ -48,9 +47,7 @@ public class AuthController {
             LoginResponseDto loginResponseDto = authService.getAuthenticationToken(loginRequestDto);
             return new ResponseEntity<>(loginResponseDto, HttpStatus.OK);
         } catch (BadCredentialsException badCredentialsException) {
-            MessageDto message = new MessageDto();
-            message.setStatus(HttpStatus.UNAUTHORIZED.toString());
-            message.setMessage(MessageConst.IN_CORRECT);
+            MessageDto message = new MessageDto(HttpStatus.UNAUTHORIZED.toString(), MessageConst.IN_CORRECT);
             return new ResponseEntity<>(message, HttpStatus.UNAUTHORIZED);
         }
     }

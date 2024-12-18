@@ -5,24 +5,24 @@ import java.util.List;
 
 @Data
 public class PaginatedResponseDto<T> {
-    private List<T> roles;
+    private List<T> data;
     private long totalElements;
     private int totalPages;
     private long totalAll;
 
-    public PaginatedResponseDto(List<T> roles, long totalElements, int totalPages, long totalAll) {
-        this.roles = roles;
+    public PaginatedResponseDto(List<T> data, long totalElements, int totalPages, long totalAll) {
+        this.data = data;
         this.totalElements = totalElements;
         this.totalPages = totalPages;
         this.totalAll = totalAll;
     }
 
-    public List<T> getRoles() {
-        return roles;
+    public List<T> getData() {
+        return data;
     }
 
-    public void setRoles(List<T> roles) {
-        this.roles = roles;
+    public void setData(List<T> data) {
+        this.data = data;
     }
 
     public long getTotalElements() {
